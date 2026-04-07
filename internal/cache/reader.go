@@ -41,13 +41,24 @@ func ReadCache(cachePath string) (*CacheData, error) {
 		return nil, fmt.Errorf("failed to read cache file: %w", err)
 	}
 
-	// Parse outer JSON (contains cache as a JSON string)
-	var outer struct {
-		Cache string `json:"cache"`
+	// Parse outer JSON — the "cache" field may be a JSON string (v3) or a direct object (v6+)
+	var raw struct {
+		Cache json.RawMessage `json:"cache"`
 	}
 
-	if err := json.Unmarshal(data, &outer); err != nil {
+	if err := json.Unmarshal(data, &raw); err != nil {
 		return nil, fmt.Errorf("failed to parse cache JSON: %w", err)
+	}
+
+	// Determine format: if cache is a string, decode it; otherwise use directly
+	var cacheBytes []byte
+	var cacheStr string
+	if err := json.Unmarshal(raw.Cache, &cacheStr); err == nil {
+		// v3 format: cache is a JSON-encoded string
+		cacheBytes = []byte(cacheStr)
+	} else {
+		// v6+ format: cache is a direct JSON object
+		cacheBytes = raw.Cache
 	}
 
 	// Parse inner JSON (the actual cache data)
@@ -58,7 +69,7 @@ func ReadCache(cachePath string) (*CacheData, error) {
 		} `json:"state"`
 	}
 
-	if err := json.Unmarshal([]byte(outer.Cache), &inner); err != nil {
+	if err := json.Unmarshal(cacheBytes, &inner); err != nil {
 		return nil, fmt.Errorf("failed to parse cache state: %w", err)
 	}
 
@@ -92,12 +103,22 @@ func ReadCache(cachePath string) (*CacheData, error) {
 }
 
 // GetDefaultCachePath returns the default cache file path for the current platform.
+// It checks for cache files in descending version order and returns the first one found.
 func GetDefaultCachePath() string {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return ""
 	}
 
-	// macOS path
-	return filepath.Join(home, "Library", "Application Support", "Granola", "cache-v3.json")
+	// macOS path — check for cache files in descending version order
+	granolaDir := filepath.Join(home, "Library", "Application Support", "Granola")
+	for v := 10; v >= 3; v-- {
+		path := filepath.Join(granolaDir, fmt.Sprintf("cache-v%d.json", v))
+		if _, err := os.Stat(path); err == nil {
+			return path
+		}
+	}
+
+	// Fallback to v3 if nothing found
+	return filepath.Join(granolaDir, "cache-v3.json")
 }
