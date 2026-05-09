@@ -1,4 +1,4 @@
-module github.com/theantichris/granola
+module github.com/bshyong/granola
 
 go 1.25.1
 
