@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/spf13/afero"
-	"github.com/theantichris/granola/internal/api"
-	"github.com/theantichris/granola/internal/converter"
+	"github.com/bshyong/granola/internal/api"
+	"github.com/bshyong/granola/internal/converter"
 )
 
 var invalidFileChars = regexp.MustCompile(`[<>:"/\\|?*\x00-\x1f]`)

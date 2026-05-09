@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/theantichris/granola/internal/api"
+	"github.com/bshyong/granola/internal/api"
 )
 
 // ConvertToMarkdown converts a ProseMirror document to Markdown format.

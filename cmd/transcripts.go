@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/theantichris/granola/internal/cache"
-	"github.com/theantichris/granola/internal/transcript"
+	"github.com/bshyong/granola/internal/cache"
+	"github.com/bshyong/granola/internal/transcript"
 )
 
 var (

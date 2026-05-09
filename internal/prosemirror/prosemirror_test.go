@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/theantichris/granola/internal/api"
+	"github.com/bshyong/granola/internal/api"
 )
 
 func TestConvertToMarkdown(t *testing.T) {

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/theantichris/granola/internal/api"
-	"github.com/theantichris/granola/internal/prosemirror"
+	"github.com/bshyong/granola/internal/api"
+	"github.com/bshyong/granola/internal/prosemirror"
 	"gopkg.in/yaml.v3"
 )
 

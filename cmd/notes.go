@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/theantichris/granola/internal/api"
-	"github.com/theantichris/granola/internal/writer"
+	"github.com/bshyong/granola/internal/api"
+	"github.com/bshyong/granola/internal/writer"
 )
 
 var appFS = afero.NewOsFs()

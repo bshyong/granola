@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/theantichris/granola/internal/cache"
+	"github.com/bshyong/granola/internal/cache"
 )
 
 // FormatTranscript formats transcript segments into a readable text format.
